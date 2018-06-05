@@ -14,27 +14,43 @@ if (Meteor.isServer) {
 
     Meteor.methods({
 
-        "insert": function(data){
+        "upsert": function(data) {
+            Documentos.upsert({
+                _id: data._id
+            }, {
+                $set: {
+                    name: data.name,
+                    createdAt: new Date()
+                }
+            });
+        },
+
+        "insert": function(data) {
             Documentos.insert({
                 _id: data._id,
                 name: data.name,
                 createdAt: new Date()
             });
         },
-        "update": function(data){
+        "update": function(data) {
             Documentos.update({
                 _id: data._id
-            },{
+            }, {
                 $set: {
                     name: data.name
                 }
             });
         },
-        "delete": function(_id){
-            Documentos.remove({_id: _id});
+        "delete": function(_id) {
+            Documentos.remove({ _id: _id });
         },
-        "deleteAll": function(){
-            Documentos.remove();
+        "deleteAll": function() {
+            Documentos.remove({});
+        },
+
+        "getOplogSize": function() {
+            var database = new MongoInternals.RemoteCollectionDriver('mongodb://localhost:3001/local');
+            return database.open('oplog.rs').find({}).count();
         }
 
 

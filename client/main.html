@@ -8,7 +8,13 @@
 
 <template name="hello">
     <p>
+        <button id="start">Iniciar</button>
+    </p>
+    <p>
       <h1>Total: {{total}} documentos</h1>
+    </p>
+    <p>
+      <h2>Tamanho oplog: {{oplogSize}}</h2>
     </p>
     <ul>
         {{#each documentos}}
